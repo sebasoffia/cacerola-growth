@@ -1,0 +1,65 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { getPosts, getCategories, formatDate, truncateText } from '@/lib/wordpress';
+
+const posts = await getPosts({ perPage: 12 });
+const categories = await getCategories();
+---
+
+<Layout
+  title="Blog"
+  description="Articulos sobre Growth Hacking, Marketing Digital y estrategias de crecimiento"
+>
+  <section class="max-w-6xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold mb-8">Blog</h1>
+
+    <div class="flex flex-wrap gap-2 mb-8">
+      <a
+        href="/growth/blog/"
+        class="px-4 py-2 bg-primary-600 text-white rounded-full text-sm"
+      >
+        Todos
+      </a>
+      {categories.map((cat) => (
+        <a
+          href={`/growth/blog/categoria/${cat.slug}/`}
+          class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm"
+        >
+          {cat.name} ({cat.count})
+        </a>
+      ))}
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8">
+      {posts.map((post) => (
+        <article class="flex gap-4 p-4 border border-gray-100 rounded-lg hover:shadow-md transition-shadow">
+          {post.featured_image_url && (
+            <img
+              src={post.featured_image_url}
+              alt={post.title.rendered}
+              class="w-32 h-32 object-cover rounded shrink-0"
+              loading="lazy"
+            />
+          )}
+          <div class="flex flex-col">
+            <h2 class="text-lg font-semibold mb-2">
+              <a
+                href={`/growth/blog/${post.slug}/`}
+                class="hover:text-primary-600"
+                set:html={post.title.rendered}
+              />
+            </h2>
+            <p class="text-gray-600 text-sm mb-auto">
+              {truncateText(post.excerpt.rendered, 100)}
+            </p>
+            <div class="flex items-center gap-4 text-xs text-gray-500 mt-3">
+              <span>{post.author_name}</span>
+              <span>{formatDate(post.date)}</span>
+              <span>{post.reading_time} min</span>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</Layout>

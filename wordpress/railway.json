@@ -1,0 +1,18 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "Dockerfile"
+  },
+  "deploy": {
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10,
+    "healthcheckPath": "/wp-json/wp/v2/posts?per_page=1",
+    "healthcheckTimeout": 30,
+    "volumes": [
+      {
+        "mountPath": "/var/www/html/wp-content"
+      }
+    ]
+  }
+}

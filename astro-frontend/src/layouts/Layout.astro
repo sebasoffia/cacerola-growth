@@ -1,0 +1,75 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+}
+
+const { title, description = 'Growth Hacking y Marketing Digital', image } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/growth/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO -->
+    <title>{title} | Cacerola Growth</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {image && <meta property="og:image" content={image} />}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {image && <meta name="twitter:image" content={image} />}
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="min-h-screen bg-white text-gray-900 font-sans">
+    <header class="border-b border-gray-100">
+      <nav class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+        <a href="/growth/" class="text-xl font-bold text-primary-600">
+          Cacerola Growth
+        </a>
+        <ul class="flex gap-6 text-sm">
+          <li><a href="/growth/" class="hover:text-primary-600">Inicio</a></li>
+          <li><a href="/growth/blog/" class="hover:text-primary-600">Blog</a></li>
+          <li><a href="/growth/recursos/" class="hover:text-primary-600">Recursos</a></li>
+          <li>
+            <a href="https://cacerola.cl" class="text-primary-600 hover:underline">
+              cacerola.cl
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="border-t border-gray-100 mt-16 py-8">
+      <div class="max-w-6xl mx-auto px-4 text-center text-sm text-gray-500">
+        <p>&copy; {new Date().getFullYear()} Cacerola. Todos los derechos reservados.</p>
+      </div>
+    </footer>
+  </body>
+</html>

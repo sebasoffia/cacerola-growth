@@ -1,0 +1,66 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { getLatestPosts, formatDate, truncateText } from '@/lib/wordpress';
+
+const posts = await getLatestPosts(6);
+---
+
+<Layout title="Growth Hacking y Marketing Digital">
+  <section class="max-w-6xl mx-auto px-4 py-16">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">
+        Growth Hacking y Marketing Digital
+      </h1>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        Estrategias, tacticas y herramientas para hacer crecer tu negocio de forma sostenible.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {posts.map((post) => (
+        <article class="bg-white rounded-lg border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow">
+          {post.featured_image_url && (
+            <img
+              src={post.featured_image_url}
+              alt={post.title.rendered}
+              class="w-full h-48 object-cover"
+              loading="lazy"
+            />
+          )}
+          <div class="p-6">
+            <div class="flex gap-2 mb-3">
+              {post.category_names.slice(0, 2).map((cat) => (
+                <span class="text-xs bg-primary-50 text-primary-700 px-2 py-1 rounded">
+                  {cat.name}
+                </span>
+              ))}
+            </div>
+            <h2 class="text-xl font-semibold mb-2">
+              <a
+                href={`/growth/blog/${post.slug}/`}
+                class="hover:text-primary-600"
+                set:html={post.title.rendered}
+              />
+            </h2>
+            <p class="text-gray-600 text-sm mb-4">
+              {truncateText(post.excerpt.rendered, 120)}
+            </p>
+            <div class="flex items-center justify-between text-xs text-gray-500">
+              <span>{formatDate(post.date)}</span>
+              <span>{post.reading_time} min de lectura</span>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="text-center mt-12">
+      <a
+        href="/growth/blog/"
+        class="inline-block bg-primary-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-700 transition-colors"
+      >
+        Ver todos los articulos
+      </a>
+    </div>
+  </section>
+</Layout>
