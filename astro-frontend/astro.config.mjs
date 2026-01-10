@@ -8,12 +8,5 @@ export default defineConfig({
   adapter: node({
     mode: 'standalone'
   }),
-  integrations: [tailwind()],
-  vite: {
-    define: {
-      'import.meta.env.WORDPRESS_API_URL': JSON.stringify(
-        process.env.WORDPRESS_API_URL || 'http://localhost:8080'
-      )
-    }
-  }
+  integrations: [tailwind()]
 });

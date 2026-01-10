@@ -25,10 +25,10 @@ COPY --from=build /app/dist ./dist
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/package.json ./
 
-# Variables de entorno
+# Variables de entorno - HOST fijo, PORT dinámico de Railway
 ENV HOST=0.0.0.0
-ENV PORT=3000
 
-EXPOSE 3000
+# Railway asigna PORT dinámicamente, no hardcodear
+# El servidor Astro leerá process.env.PORT
 
 CMD ["node", "./dist/server/entry.mjs"]

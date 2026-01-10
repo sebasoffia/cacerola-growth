@@ -1,4 +1,5 @@
-const WORDPRESS_API_URL = import.meta.env.WORDPRESS_API_URL || 'http://localhost:8080';
+// En SSR, process.env está disponible en runtime
+const WORDPRESS_API_URL = process.env.WORDPRESS_API_URL || 'http://localhost:8080';
 
 export interface WPPost {
   id: number;
