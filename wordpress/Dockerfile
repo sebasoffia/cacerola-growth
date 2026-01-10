@@ -1,6 +1,9 @@
 # WordPress Headless para Railway
 FROM wordpress:latest
 
+# Habilitar mod_rewrite para permalinks y REST API
+RUN a2enmod rewrite
+
 # Configurar ServerName y aumentar limite de headers para Chrome
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf \
     && echo "LimitRequestFieldSize 32768" >> /etc/apache2/apache2.conf \
