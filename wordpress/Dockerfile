@@ -1,17 +1,15 @@
 # WordPress Headless para Railway
 FROM wordpress:latest
 
-# Instalar WP-CLI
-RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-    && chmod +x wp-cli.phar \
-    && mv wp-cli.phar /usr/local/bin/wp
+# Forzar un solo MPM - eliminar event y worker, dejar solo prefork
+RUN rm -f /etc/apache2/mods-enabled/mpm_event.* /etc/apache2/mods-enabled/mpm_worker.* \
+    && ln -sf /etc/apache2/mods-available/mpm_prefork.conf /etc/apache2/mods-enabled/mpm_prefork.conf \
+    && ln -sf /etc/apache2/mods-available/mpm_prefork.load /etc/apache2/mods-enabled/mpm_prefork.load
 
 # Configurar ServerName y aumentar limite de headers para Chrome
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf \
     && echo "LimitRequestFieldSize 32768" >> /etc/apache2/apache2.conf \
     && echo "LimitRequestLine 32768" >> /etc/apache2/apache2.conf
-
-# Nota: No modificar MPMs - la imagen oficial ya viene configurada correctamente
 
 # Instalar dependencias adicionales
 RUN apt-get update && apt-get install -y \
