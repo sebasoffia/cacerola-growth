@@ -1,6 +1,6 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-import { getPostBySlug, getPosts, formatDate, stripHtml, truncateText } from '@/lib/wordpress';
+import { getPostBySlug, getPosts, formatDate, stripHtml, truncateText, getAuthorFromPost } from '@/lib/wordpress';
 
 const { slug } = Astro.params;
 
@@ -16,15 +16,8 @@ const filteredRelated = relatedPosts.filter((p) => p.id !== post.id).slice(0, 2)
 
 const metaDescription = post.meta_description || truncateText(post.excerpt.rendered, 160);
 
-// Datos del autor (hardcodeado por ahora, se puede extender con API de WordPress)
-const author = {
-  name: post.author_name || 'Sebastián Soffia',
-  role: 'Fundador de Cacerola',
-  bio: 'Especialista en growth orgánico y SEO estratégico. Ayudo a empresas a construir autoridad de marca a través de contenido que conecta.',
-  avatar: 'https://media.licdn.com/dms/image/v2/C4E03AQGzdCSznShBTw/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1614133964933?e=1770249600&v=beta&t=l3SeMkVcOJpV_z7XEAEA59N7wq5HSzESE6QJSh-i9_w',
-  linkedin: 'https://www.linkedin.com/in/sebasoffia/',
-  twitter: 'https://twitter.com/sebasoffia',
-};
+// Datos del autor desde WordPress (con fallback a valores por defecto)
+const author = getAuthorFromPost(post);
 ---
 
 <Layout

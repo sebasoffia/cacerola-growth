@@ -10,11 +10,15 @@ export interface WPPost {
   date: string;
   modified: string;
   featured_image_url: string | null;
+  author: number;
   author_name: string;
   reading_time: number;
   category_names: Array<{ name: string; slug: string }>;
   meta_title?: string;
   meta_description?: string;
+  _embedded?: {
+    author?: WPAuthor[];
+  };
 }
 
 export interface WPPage {
@@ -29,6 +33,24 @@ export interface WPCategory {
   name: string;
   slug: string;
   count: number;
+}
+
+export interface WPAuthor {
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+  avatar_urls: {
+    '24': string;
+    '48': string;
+    '96': string;
+  };
+  url: string;
+  meta?: {
+    linkedin?: string;
+    twitter?: string;
+    role?: string;
+  };
 }
 
 async function fetchAPI<T>(endpoint: string): Promise<T> {
@@ -85,6 +107,44 @@ export async function getCategories(): Promise<WPCategory[]> {
 // Search
 export async function searchPosts(query: string): Promise<WPPost[]> {
   return fetchAPI<WPPost[]>(`/posts?search=${encodeURIComponent(query)}&_embed`);
+}
+
+// Author helper
+export function getAuthorFromPost(post: WPPost): {
+  name: string;
+  bio: string;
+  avatar: string;
+  url: string;
+  linkedin: string;
+  twitter: string;
+  role: string;
+} {
+  const embedded = post._embedded?.author?.[0];
+
+  // Valores por defecto (fallback)
+  const defaults = {
+    name: 'Sebastián Soffia',
+    bio: 'Especialista en growth orgánico y SEO estratégico. Ayudo a empresas a construir autoridad de marca a través de contenido que conecta.',
+    avatar: 'https://media.licdn.com/dms/image/v2/C4E03AQGzdCSznShBTw/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1614133964933?e=1770249600&v=beta&t=l3SeMkVcOJpV_z7XEAEA59N7wq5HSzESE6QJSh-i9_w',
+    url: 'https://cacerola.cl',
+    linkedin: 'https://www.linkedin.com/in/sebasoffia/',
+    twitter: 'https://twitter.com/sebasoffia',
+    role: 'Fundador de Cacerola',
+  };
+
+  if (!embedded) {
+    return { ...defaults, name: post.author_name || defaults.name };
+  }
+
+  return {
+    name: embedded.name || post.author_name || defaults.name,
+    bio: embedded.description || defaults.bio,
+    avatar: embedded.avatar_urls?.['96'] || defaults.avatar,
+    url: embedded.url || defaults.url,
+    linkedin: embedded.meta?.linkedin || defaults.linkedin,
+    twitter: embedded.meta?.twitter || defaults.twitter,
+    role: embedded.meta?.role || defaults.role,
+  };
 }
 
 // Utilities
