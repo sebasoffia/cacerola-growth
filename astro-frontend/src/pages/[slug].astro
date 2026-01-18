@@ -375,7 +375,7 @@ const contentSections = splitContentByH2(post.content.rendered);
   </section>
 </Layout>
 
-<script define:vars={{ postTitle: stripHtml(post.title.rendered), postContent: post.content.rendered }}>
+<script define:vars={{ postTitle: stripHtml(post.title.rendered), postContent: post.content.rendered, markdownUrl: `https://cacerola.cl/growth/${slug}.md` }}>
   // Función para convertir HTML a texto plano
   function htmlToText(html) {
     const temp = document.createElement('div');
@@ -406,20 +406,19 @@ const contentSections = splitContentByH2(post.content.rendered);
       }
     });
 
+    // Prompt con URL del Markdown
+    const aiPrompt = `Analiza el siguiente artículo ${markdownUrl} y dame un resumen con los principales hitos a destacar`;
+
     // Abrir en Claude
     const claudeBtn = document.getElementById('open-claude-btn');
     if (claudeBtn) {
-      const plainText = `${title}\n\n${htmlToText(articleContent)}`;
-      const prompt = encodeURIComponent(`Analiza el siguiente artículo:\n\n${plainText}`);
-      claudeBtn.href = `https://claude.ai/new?q=${prompt}`;
+      claudeBtn.href = `https://claude.ai/new?q=${encodeURIComponent(aiPrompt)}`;
     }
 
     // Abrir en ChatGPT
     const chatgptBtn = document.getElementById('open-chatgpt-btn');
     if (chatgptBtn) {
-      const plainText = `${title}\n\n${htmlToText(articleContent)}`;
-      const prompt = encodeURIComponent(`Analiza el siguiente artículo:\n\n${plainText}`);
-      chatgptBtn.href = `https://chat.openai.com/?q=${prompt}`;
+      chatgptBtn.href = `https://chat.openai.com/?q=${encodeURIComponent(aiPrompt)}`;
     }
   });
 </script>
