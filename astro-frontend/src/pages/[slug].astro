@@ -7,7 +7,7 @@ const { slug } = Astro.params;
 const post = await getPostBySlug(slug as string);
 
 if (!post) {
-  return Astro.redirect('/growth/blog/');
+  return Astro.redirect('/growth/');
 }
 
 // Posts relacionados
@@ -30,7 +30,7 @@ const author = getAuthorFromPost(post);
       <div class="flex flex-wrap gap-2 mb-3 sm:mb-4">
         {post.category_names.map((cat) => (
           <a
-            href={`/growth/blog/categoria/${cat.slug}/`}
+            href={`/growth/categoria/${cat.slug}/`}
             class="text-xs sm:text-sm bg-primary-50 text-primary-700 px-2.5 sm:px-3 py-1 rounded-full hover:bg-primary-100 transition-colors"
           >
             {cat.name}
@@ -140,7 +140,7 @@ const author = getAuthorFromPost(post);
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
           {filteredRelated.map((related) => (
             <a
-              href={`/growth/blog/${related.slug}/`}
+              href={`/growth/${related.slug}/`}
               class="block p-4 border border-gray-200 rounded-lg hover:shadow-md hover:border-primary-200 transition-all"
             >
               <h3 class="font-semibold mb-2 text-gray-900" set:html={related.title.rendered} />

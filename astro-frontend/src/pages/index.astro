@@ -37,7 +37,7 @@ const posts = await getLatestPosts(6);
             </div>
             <h2 class="text-xl font-semibold mb-2">
               <a
-                href={`/growth/blog/${post.slug}/`}
+                href={`/growth/${post.slug}/`}
                 class="hover:text-primary-600"
                 set:html={post.title.rendered}
               />
@@ -56,7 +56,7 @@ const posts = await getLatestPosts(6);
 
     <div class="text-center mt-12">
       <a
-        href="/growth/blog/"
+        href="/growth/"
         class="inline-block bg-primary-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-700 transition-colors"
       >
         Ver todos los articulos

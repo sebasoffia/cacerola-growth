@@ -14,11 +14,19 @@ if (!defined('ABSPATH')) exit;
  * Solo permite acceso a /wp-admin y /wp-json
  */
 add_action('template_redirect', function() {
-    // Permitir admin, API REST, y GraphQL
+    // Permitir acceso completo desde dominio admin (wp.cacerola.cl)
+    $admin_domain = defined('WP_ADMIN_DOMAIN') ? WP_ADMIN_DOMAIN : 'wp.cacerola.cl';
+    if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] === $admin_domain) {
+        return;
+    }
+
+    // Permitir admin, API REST, GraphQL y login
     if (is_admin() ||
         (defined('REST_REQUEST') && REST_REQUEST) ||
         strpos($_SERVER['REQUEST_URI'], '/wp-json') !== false ||
-        strpos($_SERVER['REQUEST_URI'], '/graphql') !== false) {
+        strpos($_SERVER['REQUEST_URI'], '/graphql') !== false ||
+        strpos($_SERVER['REQUEST_URI'], '/wp-login.php') !== false ||
+        strpos($_SERVER['REQUEST_URI'], '/wp-admin') !== false) {
         return;
     }
 
