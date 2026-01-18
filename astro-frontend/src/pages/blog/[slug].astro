@@ -22,24 +22,29 @@ const metaDescription = post.meta_description || truncateText(post.excerpt.rende
   description={metaDescription}
   image={post.featured_image_url || undefined}
 >
-  <article class="max-w-3xl mx-auto px-4 py-12">
-    <header class="mb-8">
-      <div class="flex gap-2 mb-4">
+  <article class="max-w-2xl mx-auto px-5 sm:px-6 py-8 sm:py-12">
+    <header class="mb-6 sm:mb-8">
+      <div class="flex flex-wrap gap-2 mb-3 sm:mb-4">
         {post.category_names.map((cat) => (
           <a
             href={`/growth/blog/categoria/${cat.slug}/`}
-            class="text-sm bg-primary-50 text-primary-700 px-3 py-1 rounded-full hover:bg-primary-100"
+            class="text-xs sm:text-sm bg-primary-50 text-primary-700 px-2.5 sm:px-3 py-1 rounded-full hover:bg-primary-100 transition-colors"
           >
             {cat.name}
           </a>
         ))}
       </div>
 
-      <h1 class="text-3xl md:text-4xl font-bold mb-4" set:html={post.title.rendered} />
+      <h1
+        class="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 leading-tight"
+        set:html={post.title.rendered}
+      />
 
-      <div class="flex items-center gap-4 text-gray-600 text-sm">
+      <div class="flex flex-wrap items-center gap-2 sm:gap-4 text-gray-500 text-xs sm:text-sm">
         <span>Por {post.author_name}</span>
+        <span class="hidden sm:inline">•</span>
         <span>{formatDate(post.date)}</span>
+        <span class="hidden sm:inline">•</span>
         <span>{post.reading_time} min de lectura</span>
       </div>
     </header>
@@ -48,26 +53,36 @@ const metaDescription = post.meta_description || truncateText(post.excerpt.rende
       <img
         src={post.featured_image_url}
         alt={stripHtml(post.title.rendered)}
-        class="w-full rounded-lg mb-8"
+        class="w-full rounded-lg mb-6 sm:mb-8"
+        loading="eager"
       />
     )}
 
     <div
-      class="prose prose-lg max-w-none prose-headings:font-semibold prose-a:text-primary-600 prose-img:rounded-lg"
+      class="prose prose-base sm:prose-lg max-w-none
+             prose-headings:font-bold prose-headings:text-gray-900
+             prose-p:text-gray-700 prose-p:leading-relaxed
+             prose-a:text-primary-600 prose-a:no-underline hover:prose-a:underline
+             prose-img:rounded-lg prose-img:mx-auto
+             prose-blockquote:border-l-primary-500 prose-blockquote:bg-primary-50 prose-blockquote:rounded-r-lg prose-blockquote:py-1
+             prose-ul:my-4 prose-ol:my-4 prose-li:my-1
+             prose-table:text-sm prose-table:overflow-x-auto
+             prose-th:bg-gray-50 prose-th:px-3 prose-th:py-2
+             prose-td:px-3 prose-td:py-2 prose-td:border-b prose-td:border-gray-100"
       set:html={post.content.rendered}
     />
 
     {filteredRelated.length > 0 && (
-      <section class="mt-16 pt-8 border-t border-gray-100">
-        <h2 class="text-xl font-semibold mb-6">Articulos relacionados</h2>
-        <div class="grid md:grid-cols-2 gap-6">
+      <section class="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-gray-200">
+        <h2 class="text-lg sm:text-xl font-semibold mb-4 sm:mb-6">Artículos relacionados</h2>
+        <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
           {filteredRelated.map((related) => (
             <a
               href={`/growth/blog/${related.slug}/`}
-              class="block p-4 border border-gray-100 rounded-lg hover:shadow-md transition-shadow"
+              class="block p-4 border border-gray-200 rounded-lg hover:shadow-md hover:border-primary-200 transition-all"
             >
-              <h3 class="font-semibold mb-2" set:html={related.title.rendered} />
-              <p class="text-sm text-gray-600">
+              <h3 class="font-semibold mb-2 text-gray-900" set:html={related.title.rendered} />
+              <p class="text-sm text-gray-600 leading-relaxed">
                 {truncateText(related.excerpt.rendered, 80)}
               </p>
             </a>
