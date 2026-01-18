@@ -36,7 +36,7 @@ const contentSections = splitContentByH2(post.content.rendered);
 >
   <!-- Hero Section con fondo crema -->
   <section class="py-12 sm:py-16 md:py-20" style="background-color: #f6f3e3;">
-    <div class="max-w-3xl mx-auto px-5 sm:px-6">
+    <div class="max-w-4xl mx-auto px-5 sm:px-6">
       <!-- Categorías -->
       <div class="flex flex-wrap gap-2 mb-4">
         {post.category_names.map((cat) => (
@@ -87,61 +87,59 @@ const contentSections = splitContentByH2(post.content.rendered);
         </p>
       )}
 
-      <!-- Botones de acción estilo You.com -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
-        <!-- Copiar texto -->
+      <!-- Acciones inline -->
+      <div class="flex flex-wrap items-center gap-x-1 gap-y-2 text-sm text-slate-500 mb-8">
         <button
           id="copy-text-btn"
-          class="flex flex-col items-center gap-1 p-4 bg-white border border-slate-200 rounded-xl text-slate-700 hover:bg-slate-50 hover:border-slate-300 hover:shadow-md transition-all group"
+          class="inline-flex items-center gap-1.5 hover:text-orange-500 transition-colors"
         >
-          <svg class="w-6 h-6 text-slate-500 group-hover:text-orange-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
           </svg>
-          <span class="font-medium text-sm">Copiar texto</span>
-          <span class="text-xs text-slate-400">Copia al portapapeles</span>
+          <span>Copiar texto</span>
         </button>
 
-        <!-- Ver como Markdown -->
+        <span class="text-slate-300">|</span>
+
         <a
           href={`/growth/${slug}.md`}
           target="_blank"
-          class="flex flex-col items-center gap-1 p-4 bg-white border border-slate-200 rounded-xl text-slate-700 hover:bg-slate-50 hover:border-slate-300 hover:shadow-md transition-all group"
+          class="inline-flex items-center gap-1.5 hover:text-orange-500 transition-colors"
         >
-          <svg class="w-6 h-6 text-slate-500 group-hover:text-orange-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
-          <span class="font-medium text-sm">Ver Markdown</span>
-          <span class="text-xs text-slate-400">Formato legible por IA</span>
+          <span>Ver Markdown</span>
         </a>
 
-        <!-- Abrir en Claude -->
+        <span class="text-slate-300">|</span>
+
         <a
           id="open-claude-btn"
           href="#"
           target="_blank"
           rel="noopener noreferrer"
-          class="flex flex-col items-center gap-1 p-4 bg-white border border-slate-200 rounded-xl text-slate-700 hover:bg-slate-50 hover:border-slate-300 hover:shadow-md transition-all group"
+          class="inline-flex items-center gap-1.5 hover:text-orange-500 transition-colors"
         >
-          <svg class="w-6 h-6 text-slate-500 group-hover:text-orange-500 transition-colors" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M4.709 15.955l4.72-2.647.08-.079-.08-.079-4.72-2.647C3.353 9.7 2.96 8.303 3.43 7.013c.47-1.29 1.723-2.013 3.093-2.013h.14c.236-1.406 1.333-2.553 2.829-2.553 1.573 0 2.75 1.136 2.999 2.553h.14c1.37 0 2.623.723 3.093 2.013.47 1.29.077 2.687-1.279 3.49l-4.72 2.647-.08.079.08.079 4.72 2.647c1.356.803 1.749 2.2 1.279 3.49-.47 1.29-1.723 2.013-3.093 2.013h-.14c-.249 1.417-1.426 2.553-2.999 2.553-1.496 0-2.593-1.147-2.829-2.553h-.14c-1.37 0-2.623-.723-3.093-2.013-.47-1.29-.077-2.687 1.279-3.49z"/>
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.308 7.564c.131-.39.2-.803.2-1.231 0-2.14-1.75-3.875-3.908-3.875a3.904 3.904 0 0 0-3.56 2.291A4.054 4.054 0 0 0 8 4.333C5.7 4.333 3.833 6.184 3.833 8.463c0 .578.12 1.128.338 1.627A4.013 4.013 0 0 0 2 13.542c0 2.14 1.75 3.875 3.908 3.875.147 0 .291-.008.433-.024a3.9 3.9 0 0 0 3.259 1.732 3.904 3.904 0 0 0 3.56-2.291c.644.283 1.354.441 2.1.441 2.3 0 4.167-1.851 4.167-4.13 0-1.2-.515-2.28-1.338-3.037a3.97 3.97 0 0 0-.781-2.544ZM9.6 15.875a2.357 2.357 0 0 1-1.84-.879l-.09.026-.92.528a.153.153 0 0 1-.076.02.16.16 0 0 1-.138-.079.156.156 0 0 1 .016-.175l.614-.722a.158.158 0 0 1 .05-.04 2.32 2.32 0 0 1-.258-1.07c0-1.298 1.061-2.351 2.37-2.351.088 0 .175.005.261.014l.006-.023.472-1.067a.158.158 0 0 1 .144-.095c.058 0 .112.032.14.083l.377.734c.478-.31 1.05-.49 1.664-.49 1.31 0 2.37 1.053 2.37 2.352 0 .39-.095.757-.264 1.081l.728.618a.156.156 0 0 1 .017.221.16.16 0 0 1-.12.053.158.158 0 0 1-.101-.037l-.848-.72a2.369 2.369 0 0 1-1.782.804 2.37 2.37 0 0 1-1.606-.626l-.898.515a.158.158 0 0 1-.078.02.16.16 0 0 1-.138-.08.156.156 0 0 1 .016-.174l.713-.632A2.32 2.32 0 0 1 9.6 15.876Z"/>
           </svg>
-          <span class="font-medium text-sm">Ábrelo en Claude</span>
-          <span class="text-xs text-slate-400">Haz preguntas del artículo</span>
+          <span>Ábrelo en Claude</span>
         </a>
 
-        <!-- Abrir en ChatGPT -->
+        <span class="text-slate-300">|</span>
+
         <a
           id="open-chatgpt-btn"
           href="#"
           target="_blank"
           rel="noopener noreferrer"
-          class="flex flex-col items-center gap-1 p-4 bg-white border border-slate-200 rounded-xl text-slate-700 hover:bg-slate-50 hover:border-slate-300 hover:shadow-md transition-all group"
+          class="inline-flex items-center gap-1.5 hover:text-orange-500 transition-colors"
         >
-          <svg class="w-6 h-6 text-slate-500 group-hover:text-orange-500 transition-colors" viewBox="0 0 24 24" fill="currentColor">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
             <path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.8956zm16.0993 3.8558L12.6 8.3829l2.02-1.1638a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/>
           </svg>
-          <span class="font-medium text-sm">Ábrelo en ChatGPT</span>
-          <span class="text-xs text-slate-400">Haz preguntas del artículo</span>
+          <span>Ábrelo en ChatGPT</span>
         </a>
       </div>
 
@@ -163,7 +161,7 @@ const contentSections = splitContentByH2(post.content.rendered);
       class="py-12 sm:py-16"
       style={index % 2 === 0 ? "background-color: #ffffff;" : "background-color: #f6f3e3;"}
     >
-      <article class="max-w-3xl mx-auto px-5 sm:px-6">
+      <article class="max-w-4xl mx-auto px-5 sm:px-6">
         <div
           class="prose prose-lg max-w-none
                  prose-headings:font-bold prose-headings:text-slate-900
@@ -188,7 +186,7 @@ const contentSections = splitContentByH2(post.content.rendered);
 
   <!-- Caja del autor completa -->
   <section class="py-12 sm:py-16 border-t border-slate-200" style="background-color: #f6f3e3;">
-    <div class="max-w-3xl mx-auto px-5 sm:px-6">
+    <div class="max-w-4xl mx-auto px-5 sm:px-6">
       <div class="p-6 sm:p-8 bg-orange-50 rounded-2xl">
         <div class="flex flex-col sm:flex-row gap-5 sm:gap-6">
           <img
@@ -234,7 +232,7 @@ const contentSections = splitContentByH2(post.content.rendered);
   <!-- Artículos relacionados -->
   {filteredRelated.length > 0 && (
     <section class="py-12 sm:py-16 bg-white border-t border-slate-100">
-      <div class="max-w-3xl mx-auto px-5 sm:px-6">
+      <div class="max-w-4xl mx-auto px-5 sm:px-6">
         <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-8">Artículos relacionados</h2>
         <div class="grid gap-6 sm:grid-cols-2">
           {filteredRelated.map((related) => (
@@ -256,7 +254,7 @@ const contentSections = splitContentByH2(post.content.rendered);
 
   <!-- CTA Final -->
   <section class="py-16 sm:py-20 bg-orange-500 text-white">
-    <div class="max-w-3xl mx-auto px-5 sm:px-6 text-center">
+    <div class="max-w-4xl mx-auto px-5 sm:px-6 text-center">
       <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
         ¿Quieres resultados similares para tu negocio?
       </h2>
@@ -293,16 +291,12 @@ const contentSections = splitContentByH2(post.content.rendered);
       const plainText = `${title}\n\n${htmlToText(articleContent)}`;
       try {
         await navigator.clipboard.writeText(plainText);
-        const titleSpan = copyBtn.querySelector('span.font-medium');
-        const subtitleSpan = copyBtn.querySelector('span.text-xs');
-        if (titleSpan && subtitleSpan) {
-          const origTitle = titleSpan.textContent;
-          const origSubtitle = subtitleSpan.textContent;
-          titleSpan.textContent = '¡Copiado!';
-          subtitleSpan.textContent = 'Listo para pegar';
+        const span = copyBtn.querySelector('span');
+        if (span) {
+          const origText = span.textContent;
+          span.textContent = '¡Copiado!';
           setTimeout(() => {
-            titleSpan.textContent = origTitle;
-            subtitleSpan.textContent = origSubtitle;
+            span.textContent = origText;
           }, 2000);
         }
       } catch (err) {
