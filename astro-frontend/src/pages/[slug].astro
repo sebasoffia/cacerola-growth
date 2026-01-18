@@ -18,6 +18,15 @@ const metaDescription = post.meta_description || truncateText(post.excerpt.rende
 
 // Datos del autor desde WordPress (con fallback a valores por defecto)
 const author = getAuthorFromPost(post);
+
+// Dividir contenido por H2 para alternar colores de fondo
+function splitContentByH2(html: string): string[] {
+  // Dividir por H2 manteniendo el tag
+  const sections = html.split(/(?=<h2)/i);
+  return sections.filter(s => s.trim());
+}
+
+const contentSections = splitContentByH2(post.content.rendered);
 ---
 
 <Layout
@@ -73,10 +82,56 @@ const author = getAuthorFromPost(post);
 
       <!-- Excerpt/Subtítulo -->
       {post.excerpt.rendered && (
-        <p class="text-lg sm:text-xl text-slate-600 leading-relaxed mb-8">
+        <p class="text-lg sm:text-xl text-slate-600 leading-relaxed mb-6">
           {truncateText(post.excerpt.rendered, 200)}
         </p>
       )}
+
+      <!-- Botones de acción -->
+      <div class="flex flex-wrap gap-2 sm:gap-3 mb-8">
+        <button
+          id="copy-text-btn"
+          class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+          <span>Copia el texto</span>
+        </button>
+        <button
+          id="view-markdown-btn"
+          class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <span>Ver como Markdown</span>
+        </button>
+        <a
+          id="open-claude-btn"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm"
+        >
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+          </svg>
+          <span>Ábrelo en Claude</span>
+        </a>
+        <a
+          id="open-chatgpt-btn"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm"
+        >
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.8956zm16.0993 3.8558L12.6 8.3829l2.02-1.1638a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/>
+          </svg>
+          <span>Ábrelo en ChatGPT</span>
+        </a>
+      </div>
 
       <!-- Imagen destacada -->
       {post.featured_image_url && (
@@ -90,29 +145,34 @@ const author = getAuthorFromPost(post);
     </div>
   </section>
 
-  <!-- Contenido del artículo -->
-  <section class="py-12 sm:py-16 bg-white">
-    <article class="max-w-3xl mx-auto px-5 sm:px-6">
-      <div
-        class="prose prose-lg max-w-none
-               prose-headings:font-bold prose-headings:text-slate-900
-               prose-h2:text-2xl prose-h2:sm:text-3xl prose-h2:mt-12 prose-h2:mb-6
-               prose-h3:text-xl prose-h3:sm:text-2xl prose-h3:mt-8 prose-h3:mb-4
-               prose-p:text-slate-600 prose-p:leading-relaxed prose-p:text-base prose-p:sm:text-lg
-               prose-a:text-orange-500 prose-a:no-underline hover:prose-a:underline
-               prose-strong:text-slate-900
-               prose-img:rounded-xl prose-img:shadow-md prose-img:mx-auto
-               prose-blockquote:border-l-4 prose-blockquote:border-orange-500 prose-blockquote:bg-slate-50 prose-blockquote:rounded-r-xl prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:not-italic
-               prose-ul:my-6 prose-ol:my-6
-               prose-li:text-slate-600 prose-li:my-2
-               prose-table:text-sm prose-table:overflow-x-auto
-               prose-th:bg-slate-100 prose-th:px-4 prose-th:py-3 prose-th:text-left prose-th:font-semibold
-               prose-td:px-4 prose-td:py-3 prose-td:border-b prose-td:border-slate-100
-               prose-code:bg-slate-100 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm prose-code:text-orange-600"
-        set:html={post.content.rendered}
-      />
-    </article>
-  </section>
+  <!-- Contenido del artículo con secciones alternadas -->
+  {contentSections.map((section, index) => (
+    <section
+      class="py-12 sm:py-16"
+      style={index % 2 === 0 ? "background-color: #ffffff;" : "background-color: #f6f3e3;"}
+    >
+      <article class="max-w-3xl mx-auto px-5 sm:px-6">
+        <div
+          class="prose prose-lg max-w-none
+                 prose-headings:font-bold prose-headings:text-slate-900
+                 prose-h2:text-2xl prose-h2:sm:text-3xl prose-h2:mt-0 prose-h2:mb-6
+                 prose-h3:text-xl prose-h3:sm:text-2xl prose-h3:mt-8 prose-h3:mb-4
+                 prose-p:text-slate-600 prose-p:leading-relaxed prose-p:text-base prose-p:sm:text-lg
+                 prose-a:text-orange-500 prose-a:no-underline hover:prose-a:underline
+                 prose-strong:text-slate-900
+                 prose-img:rounded-xl prose-img:shadow-md prose-img:mx-auto
+                 prose-blockquote:border-l-4 prose-blockquote:border-orange-500 prose-blockquote:bg-slate-50 prose-blockquote:rounded-r-xl prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:not-italic
+                 prose-ul:my-6 prose-ol:my-6
+                 prose-li:text-slate-600 prose-li:my-2
+                 prose-table:text-sm prose-table:overflow-x-auto
+                 prose-th:bg-slate-100 prose-th:px-4 prose-th:py-3 prose-th:text-left prose-th:font-semibold
+                 prose-td:px-4 prose-td:py-3 prose-td:border-b prose-td:border-slate-100
+                 prose-code:bg-slate-100 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm prose-code:text-orange-600"
+          set:html={section}
+        />
+      </article>
+    </section>
+  ))}
 
   <!-- Caja del autor completa -->
   <section class="py-12 sm:py-16 border-t border-slate-200" style="background-color: #f6f3e3;">
@@ -202,3 +262,91 @@ const author = getAuthorFromPost(post);
     </div>
   </section>
 </Layout>
+
+<script define:vars={{ postTitle: stripHtml(post.title.rendered), postContent: post.content.rendered }}>
+  // Función para convertir HTML a texto plano
+  function htmlToText(html) {
+    const temp = document.createElement('div');
+    temp.innerHTML = html;
+    return temp.textContent || temp.innerText || '';
+  }
+
+  // Función para convertir HTML a Markdown básico
+  function htmlToMarkdown(html) {
+    let md = html;
+    // Títulos
+    md = md.replace(/<h1[^>]*>(.*?)<\/h1>/gi, '# $1\n\n');
+    md = md.replace(/<h2[^>]*>(.*?)<\/h2>/gi, '## $1\n\n');
+    md = md.replace(/<h3[^>]*>(.*?)<\/h3>/gi, '### $1\n\n');
+    md = md.replace(/<h4[^>]*>(.*?)<\/h4>/gi, '#### $1\n\n');
+    // Párrafos
+    md = md.replace(/<p[^>]*>(.*?)<\/p>/gi, '$1\n\n');
+    // Negritas
+    md = md.replace(/<strong[^>]*>(.*?)<\/strong>/gi, '**$1**');
+    md = md.replace(/<b[^>]*>(.*?)<\/b>/gi, '**$1**');
+    // Cursivas
+    md = md.replace(/<em[^>]*>(.*?)<\/em>/gi, '*$1*');
+    md = md.replace(/<i[^>]*>(.*?)<\/i>/gi, '*$1*');
+    // Links
+    md = md.replace(/<a[^>]*href="([^"]*)"[^>]*>(.*?)<\/a>/gi, '[$2]($1)');
+    // Listas
+    md = md.replace(/<li[^>]*>(.*?)<\/li>/gi, '- $1\n');
+    md = md.replace(/<\/?[uo]l[^>]*>/gi, '\n');
+    // Blockquotes
+    md = md.replace(/<blockquote[^>]*>(.*?)<\/blockquote>/gi, '> $1\n\n');
+    // Imágenes
+    md = md.replace(/<img[^>]*src="([^"]*)"[^>]*alt="([^"]*)"[^>]*>/gi, '![$2]($1)');
+    md = md.replace(/<img[^>]*src="([^"]*)"[^>]*>/gi, '![]($1)');
+    // Limpiar tags restantes
+    md = md.replace(/<[^>]+>/g, '');
+    // Limpiar espacios múltiples
+    md = md.replace(/\n{3,}/g, '\n\n');
+    return md.trim();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const articleContent = postContent;
+    const title = postTitle;
+    const pageUrl = window.location.href;
+
+    // Copiar texto plano
+    const copyBtn = document.getElementById('copy-text-btn');
+    copyBtn?.addEventListener('click', async () => {
+      const plainText = `${title}\n\n${htmlToText(articleContent)}`;
+      try {
+        await navigator.clipboard.writeText(plainText);
+        const span = copyBtn.querySelector('span');
+        const originalText = span.textContent;
+        span.textContent = '¡Copiado!';
+        setTimeout(() => { span.textContent = originalText; }, 2000);
+      } catch (err) {
+        console.error('Error al copiar:', err);
+      }
+    });
+
+    // Ver como Markdown
+    const markdownBtn = document.getElementById('view-markdown-btn');
+    markdownBtn?.addEventListener('click', () => {
+      const markdown = `# ${title}\n\n${htmlToMarkdown(articleContent)}\n\n---\nFuente: ${pageUrl}`;
+      const blob = new Blob([markdown], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+    });
+
+    // Abrir en Claude
+    const claudeBtn = document.getElementById('open-claude-btn');
+    if (claudeBtn) {
+      const plainText = `${title}\n\n${htmlToText(articleContent)}`;
+      const prompt = encodeURIComponent(`Analiza el siguiente artículo:\n\n${plainText}`);
+      claudeBtn.href = `https://claude.ai/new?q=${prompt}`;
+    }
+
+    // Abrir en ChatGPT
+    const chatgptBtn = document.getElementById('open-chatgpt-btn');
+    if (chatgptBtn) {
+      const plainText = `${title}\n\n${htmlToText(articleContent)}`;
+      const prompt = encodeURIComponent(`Analiza el siguiente artículo:\n\n${plainText}`);
+      chatgptBtn.href = `https://chat.openai.com/?q=${prompt}`;
+    }
+  });
+</script>
