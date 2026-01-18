@@ -3,10 +3,58 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
+  jsonLd?: object | object[];
 }
 
-const { title, description = 'Growth Hacking y Marketing Digital', image } = Astro.props;
+const { title, description = 'Growth Hacking y Marketing Digital', image, jsonLd } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, 'https://cacerola.cl');
+
+// Schema base de la organización
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://cacerola.cl/#organization",
+  "name": "Cacerola",
+  "url": "https://cacerola.cl",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "https://cacerola.cl/favicon.ico",
+    "width": 512,
+    "height": 512
+  },
+  "sameAs": [
+    "https://www.linkedin.com/company/cacerola-cl",
+    "https://twitter.com/cacerola_cl"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer service",
+    "url": "https://cacerola.cl/contacto"
+  }
+};
+
+// Schema del sitio web
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://cacerola.cl/#website",
+  "name": "Cacerola Growth",
+  "url": "https://cacerola.cl/growth/",
+  "publisher": {
+    "@id": "https://cacerola.cl/#organization"
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://cacerola.cl/growth/buscar?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+};
+
+// Combinar schemas
+const allSchemas = [organizationSchema, websiteSchema, ...(Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [])];
 ---
 
 <!doctype html>
@@ -42,6 +90,11 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://cacerola.cl');
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+
+    <!-- JSON-LD Structured Data -->
+    {allSchemas.map((schema) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))}
   </head>
   <body class="min-h-screen bg-white text-slate-900 font-sans">
     <!-- Navigation estilo Toteat -->

@@ -19,6 +19,109 @@ const metaDescription = post.meta_description || truncateText(post.excerpt.rende
 // Datos del autor desde WordPress (con fallback a valores por defecto)
 const author = getAuthorFromPost(post);
 
+// URL canónica del artículo
+const articleUrl = `https://cacerola.cl/growth/${slug}/`;
+
+// JSON-LD Schema: Article
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "@id": `${articleUrl}#article`,
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": articleUrl
+  },
+  "headline": stripHtml(post.title.rendered),
+  "description": metaDescription,
+  "image": post.featured_image_url ? {
+    "@type": "ImageObject",
+    "url": post.featured_image_url,
+    "width": 1200,
+    "height": 630
+  } : undefined,
+  "datePublished": post.date,
+  "dateModified": post.modified || post.date,
+  "author": {
+    "@type": "Person",
+    "@id": "https://cacerola.cl/#author-sebastian",
+    "name": author.name,
+    "url": author.linkedin,
+    "jobTitle": author.role,
+    "description": author.bio,
+    "sameAs": [
+      author.linkedin,
+      author.twitter
+    ]
+  },
+  "publisher": {
+    "@id": "https://cacerola.cl/#organization"
+  },
+  "isPartOf": {
+    "@id": "https://cacerola.cl/#website"
+  },
+  "inLanguage": "es-CL",
+  "articleSection": post.category_names.map(cat => cat.name).join(", "),
+  "keywords": post.category_names.map(cat => cat.name),
+  "wordCount": Math.round(stripHtml(post.content.rendered).split(/\s+/).length),
+  "timeRequired": `PT${post.reading_time}M`
+};
+
+// JSON-LD Schema: BreadcrumbList
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Inicio",
+      "item": "https://cacerola.cl"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Growth Blog",
+      "item": "https://cacerola.cl/growth/"
+    },
+    ...(post.category_names.length > 0 ? [{
+      "@type": "ListItem",
+      "position": 3,
+      "name": post.category_names[0].name,
+      "item": `https://cacerola.cl/growth/categoria/${post.category_names[0].slug}/`
+    }] : []),
+    {
+      "@type": "ListItem",
+      "position": post.category_names.length > 0 ? 4 : 3,
+      "name": stripHtml(post.title.rendered)
+    }
+  ]
+};
+
+// JSON-LD Schema: WebPage
+const webPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": articleUrl,
+  "url": articleUrl,
+  "name": `${stripHtml(post.title.rendered)} | Cacerola Growth`,
+  "description": metaDescription,
+  "isPartOf": {
+    "@id": "https://cacerola.cl/#website"
+  },
+  "primaryImageOfPage": post.featured_image_url ? {
+    "@type": "ImageObject",
+    "url": post.featured_image_url
+  } : undefined,
+  "datePublished": post.date,
+  "dateModified": post.modified || post.date,
+  "breadcrumb": {
+    "@id": `${articleUrl}#breadcrumb`
+  }
+};
+
+// Combinar todos los schemas del artículo
+const jsonLdSchemas = [articleSchema, breadcrumbSchema, webPageSchema];
+
 // Dividir contenido por H2 para alternar colores de fondo
 function splitContentByH2(html: string): string[] {
   // Dividir por H2 manteniendo el tag
@@ -33,6 +136,7 @@ const contentSections = splitContentByH2(post.content.rendered);
   title={stripHtml(post.title.rendered)}
   description={metaDescription}
   image={post.featured_image_url || undefined}
+  jsonLd={jsonLdSchemas}
 >
   <!-- Hero Section con fondo crema -->
   <section class="py-12 sm:py-16 md:py-20" style="background-color: #f6f3e3;">
