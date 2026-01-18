@@ -87,49 +87,61 @@ const contentSections = splitContentByH2(post.content.rendered);
         </p>
       )}
 
-      <!-- Botones de acción -->
-      <div class="flex flex-wrap gap-2 sm:gap-3 mb-8">
+      <!-- Botones de acción estilo You.com -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+        <!-- Copiar texto -->
         <button
           id="copy-text-btn"
-          class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm"
+          class="flex flex-col items-center gap-1 p-4 bg-white border border-slate-200 rounded-xl text-slate-700 hover:bg-slate-50 hover:border-slate-300 hover:shadow-md transition-all group"
         >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-6 h-6 text-slate-500 group-hover:text-orange-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
           </svg>
-          <span>Copia el texto</span>
+          <span class="font-medium text-sm">Copiar texto</span>
+          <span class="text-xs text-slate-400">Copia al portapapeles</span>
         </button>
-        <button
-          id="view-markdown-btn"
-          class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm"
+
+        <!-- Ver como Markdown -->
+        <a
+          href={`/growth/${slug}.md`}
+          target="_blank"
+          class="flex flex-col items-center gap-1 p-4 bg-white border border-slate-200 rounded-xl text-slate-700 hover:bg-slate-50 hover:border-slate-300 hover:shadow-md transition-all group"
         >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-6 h-6 text-slate-500 group-hover:text-orange-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
-          <span>Ver como Markdown</span>
-        </button>
+          <span class="font-medium text-sm">Ver Markdown</span>
+          <span class="text-xs text-slate-400">Formato legible por IA</span>
+        </a>
+
+        <!-- Abrir en Claude -->
         <a
           id="open-claude-btn"
           href="#"
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm"
+          class="flex flex-col items-center gap-1 p-4 bg-white border border-slate-200 rounded-xl text-slate-700 hover:bg-slate-50 hover:border-slate-300 hover:shadow-md transition-all group"
         >
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+          <svg class="w-6 h-6 text-slate-500 group-hover:text-orange-500 transition-colors" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M4.709 15.955l4.72-2.647.08-.079-.08-.079-4.72-2.647C3.353 9.7 2.96 8.303 3.43 7.013c.47-1.29 1.723-2.013 3.093-2.013h.14c.236-1.406 1.333-2.553 2.829-2.553 1.573 0 2.75 1.136 2.999 2.553h.14c1.37 0 2.623.723 3.093 2.013.47 1.29.077 2.687-1.279 3.49l-4.72 2.647-.08.079.08.079 4.72 2.647c1.356.803 1.749 2.2 1.279 3.49-.47 1.29-1.723 2.013-3.093 2.013h-.14c-.249 1.417-1.426 2.553-2.999 2.553-1.496 0-2.593-1.147-2.829-2.553h-.14c-1.37 0-2.623-.723-3.093-2.013-.47-1.29-.077-2.687 1.279-3.49z"/>
           </svg>
-          <span>Ábrelo en Claude</span>
+          <span class="font-medium text-sm">Ábrelo en Claude</span>
+          <span class="text-xs text-slate-400">Haz preguntas del artículo</span>
         </a>
+
+        <!-- Abrir en ChatGPT -->
         <a
           id="open-chatgpt-btn"
           href="#"
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm"
+          class="flex flex-col items-center gap-1 p-4 bg-white border border-slate-200 rounded-xl text-slate-700 hover:bg-slate-50 hover:border-slate-300 hover:shadow-md transition-all group"
         >
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+          <svg class="w-6 h-6 text-slate-500 group-hover:text-orange-500 transition-colors" viewBox="0 0 24 24" fill="currentColor">
             <path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.8956zm16.0993 3.8558L12.6 8.3829l2.02-1.1638a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/>
           </svg>
-          <span>Ábrelo en ChatGPT</span>
+          <span class="font-medium text-sm">Ábrelo en ChatGPT</span>
+          <span class="text-xs text-slate-400">Haz preguntas del artículo</span>
         </a>
       </div>
 
@@ -271,43 +283,9 @@ const contentSections = splitContentByH2(post.content.rendered);
     return temp.textContent || temp.innerText || '';
   }
 
-  // Función para convertir HTML a Markdown básico
-  function htmlToMarkdown(html) {
-    let md = html;
-    // Títulos
-    md = md.replace(/<h1[^>]*>(.*?)<\/h1>/gi, '# $1\n\n');
-    md = md.replace(/<h2[^>]*>(.*?)<\/h2>/gi, '## $1\n\n');
-    md = md.replace(/<h3[^>]*>(.*?)<\/h3>/gi, '### $1\n\n');
-    md = md.replace(/<h4[^>]*>(.*?)<\/h4>/gi, '#### $1\n\n');
-    // Párrafos
-    md = md.replace(/<p[^>]*>(.*?)<\/p>/gi, '$1\n\n');
-    // Negritas
-    md = md.replace(/<strong[^>]*>(.*?)<\/strong>/gi, '**$1**');
-    md = md.replace(/<b[^>]*>(.*?)<\/b>/gi, '**$1**');
-    // Cursivas
-    md = md.replace(/<em[^>]*>(.*?)<\/em>/gi, '*$1*');
-    md = md.replace(/<i[^>]*>(.*?)<\/i>/gi, '*$1*');
-    // Links
-    md = md.replace(/<a[^>]*href="([^"]*)"[^>]*>(.*?)<\/a>/gi, '[$2]($1)');
-    // Listas
-    md = md.replace(/<li[^>]*>(.*?)<\/li>/gi, '- $1\n');
-    md = md.replace(/<\/?[uo]l[^>]*>/gi, '\n');
-    // Blockquotes
-    md = md.replace(/<blockquote[^>]*>(.*?)<\/blockquote>/gi, '> $1\n\n');
-    // Imágenes
-    md = md.replace(/<img[^>]*src="([^"]*)"[^>]*alt="([^"]*)"[^>]*>/gi, '![$2]($1)');
-    md = md.replace(/<img[^>]*src="([^"]*)"[^>]*>/gi, '![]($1)');
-    // Limpiar tags restantes
-    md = md.replace(/<[^>]+>/g, '');
-    // Limpiar espacios múltiples
-    md = md.replace(/\n{3,}/g, '\n\n');
-    return md.trim();
-  }
-
   document.addEventListener('DOMContentLoaded', () => {
     const articleContent = postContent;
     const title = postTitle;
-    const pageUrl = window.location.href;
 
     // Copiar texto plano
     const copyBtn = document.getElementById('copy-text-btn');
@@ -315,22 +293,21 @@ const contentSections = splitContentByH2(post.content.rendered);
       const plainText = `${title}\n\n${htmlToText(articleContent)}`;
       try {
         await navigator.clipboard.writeText(plainText);
-        const span = copyBtn.querySelector('span');
-        const originalText = span.textContent;
-        span.textContent = '¡Copiado!';
-        setTimeout(() => { span.textContent = originalText; }, 2000);
+        const titleSpan = copyBtn.querySelector('span.font-medium');
+        const subtitleSpan = copyBtn.querySelector('span.text-xs');
+        if (titleSpan && subtitleSpan) {
+          const origTitle = titleSpan.textContent;
+          const origSubtitle = subtitleSpan.textContent;
+          titleSpan.textContent = '¡Copiado!';
+          subtitleSpan.textContent = 'Listo para pegar';
+          setTimeout(() => {
+            titleSpan.textContent = origTitle;
+            subtitleSpan.textContent = origSubtitle;
+          }, 2000);
+        }
       } catch (err) {
         console.error('Error al copiar:', err);
       }
-    });
-
-    // Ver como Markdown
-    const markdownBtn = document.getElementById('view-markdown-btn');
-    markdownBtn?.addEventListener('click', () => {
-      const markdown = `# ${title}\n\n${htmlToMarkdown(articleContent)}\n\n---\nFuente: ${pageUrl}`;
-      const blob = new Blob([markdown], { type: 'text/markdown' });
-      const url = URL.createObjectURL(blob);
-      window.open(url, '_blank');
     });
 
     // Abrir en Claude
