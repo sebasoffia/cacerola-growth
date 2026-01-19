@@ -35,6 +35,23 @@ export interface WPCategory {
   count: number;
 }
 
+export interface WPComment {
+  id: number;
+  post: number;
+  parent: number;
+  author: number;
+  author_name: string;
+  author_url: string;
+  date: string;
+  content: { rendered: string };
+  status: string;
+  author_avatar_urls: {
+    '24': string;
+    '48': string;
+    '96': string;
+  };
+}
+
 export interface WPAuthor {
   id: number;
   name: string;
@@ -107,6 +124,15 @@ export async function getCategories(): Promise<WPCategory[]> {
 // Search
 export async function searchPosts(query: string): Promise<WPPost[]> {
   return fetchAPI<WPPost[]>(`/posts?search=${encodeURIComponent(query)}&_embed`);
+}
+
+// Comments
+export async function getComments(postId: number): Promise<WPComment[]> {
+  return fetchAPI<WPComment[]>(`/comments?post=${postId}&status=approve&per_page=100`);
+}
+
+export function getWordPressApiUrl(): string {
+  return WORDPRESS_API_URL;
 }
 
 // Author helper
