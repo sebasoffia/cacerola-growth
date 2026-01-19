@@ -14,11 +14,11 @@ const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "@id": "https://cacerola.cl/#organization",
-  "name": "Cacerola",
+  "name": "Cacerola Growth Marketing",
   "url": "https://cacerola.cl",
   "logo": {
     "@type": "ImageObject",
-    "url": "https://cacerola.cl/favicon.ico",
+    "url": "https://cacerola.cl/growth/images/cacerola-growth-marketing-logo.png",
     "width": 512,
     "height": 512
   },
@@ -38,7 +38,7 @@ const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "@id": "https://cacerola.cl/#website",
-  "name": "Cacerola Growth",
+  "name": "Cacerola Growth Marketing",
   "url": "https://cacerola.cl/growth/",
   "publisher": {
     "@id": "https://cacerola.cl/#organization"
@@ -62,11 +62,19 @@ const allSchemas = [organizationSchema, websiteSchema, ...(Array.isArray(jsonLd)
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="https://cacerola.cl/favicon.ico" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="/growth/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/growth/favicon-96x96.png" />
+    <link rel="shortcut icon" href="/growth/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/growth/apple-touch-icon.png" />
+    <link rel="manifest" href="/growth/site.webmanifest" />
+    <meta name="theme-color" content="#f97316" />
+
     <meta name="generator" content={Astro.generator} />
 
     <!-- SEO -->
-    <title>{title} | Cacerola Growth</title>
+    <title>{title} | Cacerola Growth Marketing</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
 
@@ -102,10 +110,12 @@ const allSchemas = [organizationSchema, websiteSchema, ...(Array.isArray(jsonLd)
       <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4">
         <div class="flex items-center justify-between">
           <a href="/growth/" class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
-              <span class="text-white font-bold text-sm">C</span>
-            </div>
-            <span class="text-xl font-bold text-slate-800">Cacerola</span>
+            <img
+              src="/growth/images/cacerola-growth-marketing-logo.png"
+              alt="Cacerola Growth Marketing"
+              class="h-8 w-auto"
+            />
+            <span class="text-xl font-bold text-slate-800">Cacerola Growth Marketing</span>
           </a>
 
           <div class="flex items-center gap-6">
@@ -133,10 +143,12 @@ const allSchemas = [organizationSchema, websiteSchema, ...(Array.isArray(jsonLd)
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
         <div class="flex flex-col md:flex-row justify-between items-center gap-4">
           <div class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
-              <span class="text-white font-bold text-sm">C</span>
-            </div>
-            <span class="text-lg font-bold text-white">Cacerola</span>
+            <img
+              src="/growth/images/cacerola-growth-marketing-logo.png"
+              alt="Cacerola Growth Marketing"
+              class="h-8 w-auto"
+            />
+            <span class="text-lg font-bold text-white">Cacerola Growth Marketing</span>
           </div>
           <p class="text-sm">
             &copy; {new Date().getFullYear()} Cacerola Growth Marketing. Todos los derechos reservados.
